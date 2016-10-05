@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import com.practice.weather.activity.WeatherActivity;
 import com.practice.weather.model.City;
 import com.practice.weather.model.County;
+import com.practice.weather.model.HourlyWeather;
 import com.practice.weather.model.Province;
 import com.practice.weather.model.WeatherDB;
 
@@ -16,6 +17,8 @@ import org.json.JSONObject;
 /**
  * Created by 36498 on 2016/10/3.
  */
+/*解析的规则就是先按逗号分隔，再按单竖线分隔，接着将解析出来的数据设置到实体类中，
+发最后调用CoolWeatherDB中的三个save()方法将数据存储到相应的表中。 */
 public class Utility {
 
     public synchronized static boolean handleProvincesResponse(WeatherDB weatherDB,
@@ -75,7 +78,7 @@ public class Utility {
         }
         return false;
     }
-
+    // 处理服务器返回的json数据
     public static void handleWeatherResponse(Context context, String response) {
         try {
             JSONObject jsonobject = new JSONObject(response);
@@ -98,7 +101,7 @@ public class Utility {
 
             JSONArray hourly_forecast = (JSONArray) first_object.get("hourly_forecast");
 
-            WeatherActivity.weather.clear();
+            WeatherActivity.weatherList.clear();
 
             for (int i = 0; i < hourly_forecast.length(); i++) {
                 JSONObject json = hourly_forecast.getJSONObject(i);
@@ -111,8 +114,8 @@ public class Utility {
                 String hourly_temp = "温度：" + json.getString("tmp") + "℃";
                 String hourly_pop = "降水概率：" + json.getString("pop");
                 String hourly_wind = "风力：" + dir + " " + sc + "级";
-                HourlyWeather weather = new HourlyWeather(hourly_clock, hourly_temp, hourly_pop, hourly_wind);
-                WeatherActivity.weatherlist.add(weather);
+               HourlyWeather weather = new HourlyWeather(hourly_clock, hourly_temp, hourly_pop, hourly_wind);
+                WeatherActivity.weatherList.add(weather);
             }
             //日出
             String sunriseTime = astro.getString("sr");
@@ -132,17 +135,21 @@ public class Utility {
             String updateTime = update.getString("loc");
             //城市名
             String cityName = basic.getString("city");
-            saveWeatherInfo(context, cityName, sunriseTime, sunsetTime, dayWeather, nightWeather, windText, pop, tempText, updateTime);
+            saveWeatherInfo(context, cityName, sunriseTime, sunsetTime, dayWeather, nightWeather,
+                    windText, pop, tempText, updateTime);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    private static void saveWeatherInfo(Context context, String cityName,
-                                        String sunriseTime, String sunsetTime, String dayWeather, String nightWeather,
-                                        String windText, String pop, String tempText, String updateTime) {
-        SharedPreferences.Editor editor = context.getSharedPreferences("Weather", Context.MODE_PRIVATE).edit();
+    private static void saveWeatherInfo(Context context, String cityName, String sunriseTime,
+                                        String sunsetTime, String dayWeather, String nightWeather,
+                                        String windText, String pop, String tempText,
+                                        String updateTime) {
+        SharedPreferences.Editor editor = context.getSharedPreferences("Weather",
+                Context.MODE_PRIVATE).edit();//实例化SharedPreferences。Editor对象
+        /*保存数据*/
         editor.putString("cityName", cityName);
         editor.putString("sunriseTime", sunriseTime);
         editor.putString("sunsetTime", sunsetTime);
@@ -152,7 +159,7 @@ public class Utility {
         editor.putString("pop", pop);
         editor.putString("temp", tempText);
         editor.putString("updateTime", updateTime);
-        editor.commit();
+        editor.commit();//提交当前数据
     }
 }
 

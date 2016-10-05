@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import com.practice.weather.db.WeatherOpenHelper;
 
@@ -19,19 +20,19 @@ public class WeatherDB {
     public static final int VERSION = 1;
     private static  WeatherDB weatherDB;
     private SQLiteDatabase db;
-
+/*构造方法私有化*/
     private WeatherDB(Context context){
         WeatherOpenHelper dbHelper=new WeatherOpenHelper(context, DB_NAME,null,VERSION);
         db=dbHelper.getReadableDatabase();
     }
-
+/*获取CoolWeatherDB的实例*/
     public synchronized static WeatherDB getInstance(Context context){
         if(weatherDB==null){
             weatherDB=new WeatherDB(context);
         }
         return weatherDB;
     }
-
+/*存储省份数据、读取所有省份数据,市县相同*/
     public void saveProvince(Province province){
         if(province!=null){
             ContentValues values=new ContentValues();

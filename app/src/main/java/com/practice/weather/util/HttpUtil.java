@@ -11,6 +11,7 @@ import java.net.URL;
 /**
  * Created by 36498 on 2016/10/3.
  */
+/*和服务器的交互*/
 public class HttpUtil {
     public static void sendHttpRequest(final String address,final HttpCallbackListener listener){
         new Thread(new Runnable() {

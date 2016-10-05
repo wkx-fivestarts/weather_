@@ -60,7 +60,7 @@ public class ChooseAreaActivity extends Activity {
         isFromWeatherActivity = getIntent().getBooleanExtra(
                 "ChooseArea", false);
         SharedPreferences sharedPreferences = getSharedPreferences("Weather", Context.MODE_PRIVATE);
-        // 如果city已选择且本activity不是从天气界面启动而来的
+        // 如果city已选择且本activity不是从天气界面启动而来的，则直接跳转到WeatherActivity
         if (!TextUtils.isEmpty(sharedPreferences.getString("CountyName", "")) && !isFromWeatherActivity) {
             Intent intent = new Intent(this, WeatherActivity.class);
             startActivity(intent);
@@ -211,7 +211,7 @@ public class ChooseAreaActivity extends Activity {
             progressDialog.dismiss();
         }
     }
-
+/*捕获Back按键，根据当前的级别来判断，此时应该返回市列表、省列表、还是直接退出*/
     @Override
     public void onBackPressed() {
         if (currentLevel == LEVER_COUNTY) {
