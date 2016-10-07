@@ -27,14 +27,14 @@ public class HttpUtil {
                     connection.setRequestProperty("apikey", "e0b470ea19c193c307f3b5856158d802");
                     connection.connect();
                     InputStream in=connection.getInputStream();
-                    BufferedReader reader=new StringReader(new InputStreamReader(in));
+                    BufferedReader reader=new BufferedReader(new InputStreamReader(in));
                     StringBuilder response=new StringBuilder();
                     String line;
                     while ((line=reader.readLine())!=null){
                         response.append(line);
                     }
                     if (listener!=null){
-                        listener.onFinishi(response.toString());
+                        listener.onFinish(response.toString());
                     }
                 }catch (Exception e){
                     if (listener!=null){

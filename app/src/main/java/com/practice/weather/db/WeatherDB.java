@@ -1,12 +1,13 @@
-package com.practice.weather.model;
+package com.practice.weather.db;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
-import com.practice.weather.db.WeatherOpenHelper;
+import com.practice.weather.model.City;
+import com.practice.weather.model.County;
+import com.practice.weather.model.Province;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class WeatherDB {
         WeatherOpenHelper dbHelper=new WeatherOpenHelper(context, DB_NAME,null,VERSION);
         db=dbHelper.getReadableDatabase();
     }
-/*获取CoolWeatherDB的实例*/
+/*获取WeatherDB的实例*/
     public synchronized static WeatherDB getInstance(Context context){
         if(weatherDB==null){
             weatherDB=new WeatherDB(context);
@@ -41,7 +42,7 @@ public class WeatherDB {
             db.insert("Province",null,values);
         }
     }
-
+    //返回所有省份信息
     public List<Province> loadProvinces(){
        List<Province> list=new ArrayList<Province>();
         Cursor cursor=db.query("Province",null,null,null,null,null,null);

@@ -13,7 +13,7 @@ public class County {
         return id;
     }
 
-    public void setId(){
+    public void setId(int id){
         this.id=id;
     }
 
@@ -31,7 +31,7 @@ public class County {
         return countyCode;
     }
 
-    public  void setCountyCode(String countyeCode){
+    public  void setCountyCode(String countyCode){
 
         this.countyCode=countyCode;
     }

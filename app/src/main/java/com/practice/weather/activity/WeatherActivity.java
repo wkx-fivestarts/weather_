@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,14 +27,15 @@ import java.util.List;
 /**
  * Created by 36498 on 2016/10/3.
  */
-public class WeatherActivity extends Activity implments view.OnClickListener{
+public class WeatherActivity extends AppCompatActivity implements View.OnClickListener {
+
     // 城市切换按钮
     private Button citySwitch;
     // 刷新数据按钮
     private Button weatherRefresh;
     // 城市名
     private TextView cityName;
-    // 白天夜晚天气描叙
+    // 白天夜晚天气
     private TextView DayNightWeather;
     // 温度
     private TextView temp;
@@ -46,7 +49,8 @@ public class WeatherActivity extends Activity implments view.OnClickListener{
     private TextView pop;
     // 发布时间
     private TextView updateTime;
-    // 今日天气预测列表
+
+    // 天气预测列表
     private ListView listview;
 
     public static List<HourlyWeather> weatherList = new ArrayList<>();
@@ -56,7 +60,7 @@ public class WeatherActivity extends Activity implments view.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-         setContentView(R.layout.weather);
+         setContentView(R.layout.weather_layout);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
@@ -152,7 +156,7 @@ public class WeatherActivity extends Activity implments view.OnClickListener{
         wind.setText("风力：" + sharedPreferences.getString("wind", "未知"));
         pop.setText("降水概率：" + sharedPreferences.getString("pop", "未知"));
         updateTime.setText("发布时间:" + sharedPreferences.getString("updateTime", "未知"));
-        WeatherAdapter adapter = new WeatherAdapter(this, R.layout.hourly_weather, weatherList);
+        WeatherAdapter adapter = new WeatherAdapter(this, R.layout.hourly_weather_layout, weatherList);
         listview.setAdapter(adapter);
         Toast.makeText(WeatherActivity.this, "已经是最新数据了", Toast.LENGTH_SHORT).show();
         weatherRefresh.setText("更新数据");

@@ -5,7 +5,7 @@ package com.practice.weather.util;
  */
 /*在联网访问数据成功或失败后，都用接口来回调服务的返回结果*/
 public interface HttpCallbackListener {
-    void onFinishi(String response);
+    void onFinish(String response);
 
     void onError(Exception e);
 }

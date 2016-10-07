@@ -9,7 +9,7 @@ import com.practice.weather.model.City;
 import com.practice.weather.model.County;
 import com.practice.weather.model.HourlyWeather;
 import com.practice.weather.model.Province;
-import com.practice.weather.model.WeatherDB;
+import com.practice.weather.db.WeatherDB;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,7 +20,7 @@ import org.json.JSONObject;
 /*解析的规则就是先按逗号分隔，再按单竖线分隔，接着将解析出来的数据设置到实体类中，
 发最后调用CoolWeatherDB中的三个save()方法将数据存储到相应的表中。 */
 public class Utility {
-
+    // 保存服务器返回的省级数据
     public synchronized static boolean handleProvincesResponse(WeatherDB weatherDB,
                                                                String response){
         if (!TextUtils.isEmpty(response)){
@@ -40,7 +40,7 @@ public class Utility {
         return false;
     }
 
-
+    // 保存服务器返回的市级数据
     public static boolean handleCitiesResponse(WeatherDB weatherDB,
                                                String response,int provinceId) {
         if (!TextUtils.isEmpty(response)) {
@@ -59,7 +59,7 @@ public class Utility {
         }
         return false;
     }
-
+    // 保存服务器返回的县级数据
     public static boolean handleCountiesResponse(WeatherDB weatherDB,
                                                String response,int cityId) {
         if (!TextUtils.isEmpty(response)) {

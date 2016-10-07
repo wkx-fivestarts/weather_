@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -20,7 +20,7 @@ import com.practice.weather.R;
 import com.practice.weather.model.City;
 import com.practice.weather.model.County;
 import com.practice.weather.model.Province;
-import com.practice.weather.model.WeatherDB;
+import com.practice.weather.db.WeatherDB;
 import com.practice.weather.util.HttpCallbackListener;
 import com.practice.weather.util.HttpUtil;
 import com.practice.weather.util.Utility;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by 36498 on 2016/10/3.
  */
-public class ChooseAreaActivity extends Activity {
+public class ChooseAreaActivity extends AppCompatActivity {
     public static final int LEVEL_PROVINCE=0;
     public static final int LEVER_CITY=1;
     public static final int LEVER_COUNTY=2;
@@ -39,7 +39,7 @@ public class ChooseAreaActivity extends Activity {
     private ProgressDialog progressDialog;
     private TextView titleText;
     private ListView listView;
-    private ArrayAdapter<String> adapter;
+
     private WeatherDB weatherDB;
     private List<String> dataList=new ArrayList<String>();
 
@@ -51,7 +51,7 @@ public class ChooseAreaActivity extends Activity {
     private City selectedCity;
     private int currentLevel;
     private boolean isFromWeatherActivity;
-
+    private ArrayAdapter<String> adapter;
     private SharedPreferences prefs;
 
     @Override
@@ -69,6 +69,9 @@ public class ChooseAreaActivity extends Activity {
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.choose_area);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         listView=(ListView)findViewById(R.id.list_view);
         titleText = (TextView) findViewById(R.id.title);
         adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,dataList);
@@ -219,6 +222,10 @@ public class ChooseAreaActivity extends Activity {
         } else if (currentLevel ==LEVER_CITY) {
             queryProvinces();
         } else{
+            if (isFromWeatherActivity) {
+                Intent intent = new Intent(this, WeatherActivity.class);
+                startActivity(intent);
+            }
             finish();
         }
     }
